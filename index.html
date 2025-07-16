@@ -1044,7 +1044,7 @@
                 </div>
                 <div class="memory-card" id="memory3">
                     <div class="memory-img-container">
-                        <img src="IMG_20250716_001746[1]" alt="Memory 3" class="memory-img">
+                        <img src="IMG_20250716_001746[1].jpg" alt="Memory 3" class="memory-img">
                     </div>
                     <div class="memory-caption">
                         <h3>Niki In Saree</h3>
@@ -1231,19 +1231,30 @@ document.getElementById('enterBtn').addEventListener('click', function() {
             document.getElementById('currentYear').textContent = new Date().getFullYear();
         }
         
-        // Music control
-        document.getElementById('musicControl').addEventListener('click', function() {
-            const music = document.getElementById('birthdayMusic');
-            const control = document.getElementById('musicControl');
-            
-            if (music.paused) {
-                music.play();
+       // Music control
+document.getElementById('musicControl').addEventListener('click', function() {
+    const music = document.getElementById('birthdayMusic');
+    const control = document.getElementById('musicControl');
+    
+    // First interaction unlocks audio
+    if (music.paused) {
+        music.play()
+            .then(() => {
                 control.innerHTML = '<span class="music-icon">🎵</span><span>Pause Music</span>';
-            } else {
-                music.pause();
-                control.innerHTML = '<span class="music-icon">🎵</span><span>Play Birthday Music</span>';
-            }
-        });
+            })
+            .catch(e => {
+                // Show message if audio is blocked
+                control.innerHTML = '<span class="music-icon">🔇</span><span>Click to Enable Audio</span>';
+                control.style.backgroundColor = '#ff4757';
+                setTimeout(() => {
+                    control.style.backgroundColor = '';
+                }, 2000);
+            });
+    } else {
+        music.pause();
+        control.innerHTML = '<span class="music-icon">🎵</span><span>Play Birthday Music</span>';
+    }
+});
         
         // Scroll down button
         document.getElementById('scrollDown').addEventListener('click', function() {
